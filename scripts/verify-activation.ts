@@ -88,7 +88,7 @@ async function main() {
     });
     if (started.status === 'started' && started.personId === personId && started.practitionerId === fixture.practitionerId && started.practiceId === fixture.practiceId) {
       const sessionDoc = await db.collection(COLLECTIONS.practiceSessions).doc(started.sessionId).get();
-      if (sessionDoc.exists && sessionDoc.data()?.personId === personId && sessionDoc.data()?.practitionerId === fixture.practitionerId) {
+      if (sessionDoc.exists && sessionDoc.data()?.personId === personId && sessionDoc.data()?.practitionerId === fixture.practitionerId && sessionDoc.data()?.practiceId === fixture.practiceId) {
         pass(`activation.practice-start: ${which}`);
       } else {
         fail(`activation.practice-start: ${which}`, 'session document missing or fields do not match');
