@@ -102,6 +102,13 @@ async function main() {
 
   await new Promise<void>((resolve) => server.close(() => resolve()));
 
+  const ran = passed + failed;
+  if (ran < 6) {
+    console.error(`\nOnly ${ran} of 6 required scenarios ran. All six must execute.`);
+    process.exitCode = 1;
+    return;
+  }
+
   console.log(`${passed} passed, ${failed} failed`);
 
   if (failed > 0) process.exitCode = 1;
