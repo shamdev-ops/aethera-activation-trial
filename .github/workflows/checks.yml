@@ -20,3 +20,31 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run typecheck
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - name: start emulator
+        run: npm run emulators &
+      - name: wait for emulator
+        run: for i in $(seq 1 30); do nc -z 127.0.0.1 8085 && break || sleep 2; done || exit 1
+      - run: npm run seed
+        env:
+          FIRESTORE_EMULATOR_HOST: 127.0.0.1:8085
+      - run: npm test
+        env:
+          FIRESTORE_EMULATOR_HOST: 127.0.0.1:8085
+      - run: npm run verify
+        env:
+          FIRESTORE_EMULATOR_HOST: 127.0.0.1:8085

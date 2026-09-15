@@ -13,7 +13,8 @@
     "seed": "tsx scripts/seed.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "inspect:activation": "tsx scripts/inspect-activation.ts"
+    "inspect:activation": "tsx scripts/inspect-activation.ts",
+    "verify": "tsx scripts/verify-activation.ts"
   },
   "dependencies": {
     "express": "5.2.1",

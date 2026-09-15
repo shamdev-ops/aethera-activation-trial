@@ -46,13 +46,23 @@ describeWithEmulator('activation path against the emulator', () => {
       expect(res.body.practitioner.id).toBe(fixture.practitionerId);
     });
 
-    it('starting a practice succeeds', async () => {
+    it('starting a practice succeeds and writes a session', async () => {
       const res = await request(app)
         .post('/practices/start')
         .send({ personId, practiceId: fixture.practiceId });
 
       expect(res.status).toBe(200);
-      expect(res.body).toBeDefined();
+      expect(res.body.status).toBe('started');
+      expect(res.body.personId).toBe(personId);
+      expect(res.body.practitionerId).toBe(fixture.practitionerId);
+      expect(res.body.practiceId).toBe(fixture.practiceId);
+      expect(typeof res.body.sessionId).toBe('string');
+
+      const session = await getDb().collection('practiceSessions').doc(res.body.sessionId).get();
+      expect(session.exists).toBe(true);
+      expect(session.data()?.personId).toBe(personId);
+      expect(session.data()?.practitionerId).toBe(fixture.practitionerId);
+      expect(session.data()?.practiceId).toBe(fixture.practiceId);
     });
   });
 });
