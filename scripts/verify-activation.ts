@@ -35,12 +35,14 @@ async function main() {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body),
     });
-    return res.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return res.json() as Promise<any>;
   };
 
   const get = async (path: string) => {
     const res = await fetch(base + path);
-    return res.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return res.json() as Promise<any>;
   };
 
   console.log(`\nVerifying activation against ${target.host}:${target.port} (${target.projectId})\n`);
