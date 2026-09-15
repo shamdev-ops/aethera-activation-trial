@@ -63,7 +63,6 @@ describeWithEmulator('activation path against the emulator', () => {
       expect(session.data()?.personId).toBe(personId);
       expect(session.data()?.practitionerId).toBe(fixture.practitionerId);
       expect(session.data()?.practiceId).toBe(fixture.practiceId);
-      expect(session.data()?.practiceId).toBe(fixture.practiceId);
     });
   });
 });
